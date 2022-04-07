@@ -452,7 +452,7 @@ public class LineChartRenderer extends LineRadarRenderer {
 
         final int startingIndex = bounds.min;
         final int endingIndex = bounds.range + bounds.min;
-        final int indexInterval = 128;
+        final int indexInterval = 3000;
 
         int currentStartIndex = 0;
         int currentEndIndex = indexInterval;
@@ -473,8 +473,8 @@ public class LineChartRenderer extends LineRadarRenderer {
                 // Add a little extra to the path for drawables, larger data sets were showing space between adjacent drawables
                 if (drawable != null) {
 
-                    startIndex = Math.max(0, currentStartIndex - 1);
-                    endIndex = Math.min(endingIndex, currentEndIndex + 1);
+                    startIndex = Math.max(0, currentStartIndex - 5);
+                    endIndex = Math.min(endingIndex, currentEndIndex + 5);
                 }
 
                 generateFilledPath(dataSet, startIndex, endIndex, filled);
