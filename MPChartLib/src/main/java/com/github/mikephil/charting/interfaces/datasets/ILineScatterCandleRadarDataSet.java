@@ -22,6 +22,12 @@ public interface ILineScatterCandleRadarDataSet<T extends Entry> extends IBarLin
     boolean isHorizontalHighlightIndicatorEnabled();
 
     /**
+     * Returns the extra top height to be added to highlight lines.
+     * @return
+     */
+    float getHighlightLineExtraTopHeight();
+
+    /**
      * Returns the line-width in which highlight lines are to be drawn.
      * @return
      */

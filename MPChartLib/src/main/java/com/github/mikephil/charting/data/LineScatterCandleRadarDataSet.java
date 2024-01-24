@@ -15,6 +15,9 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
     protected boolean mDrawVerticalHighlightIndicator = true;
     protected boolean mDrawHorizontalHighlightIndicator = true;
 
+    /** the extra top height of the highlight indicator lines */
+    protected float mHighlightLineExtraTopHeight = 0f;
+
     /** the width of the highlight indicator lines */
     protected float mHighlightLineWidth = 0.5f;
 
@@ -60,6 +63,20 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
     @Override
     public boolean isHorizontalHighlightIndicatorEnabled() {
         return mDrawHorizontalHighlightIndicator;
+    }
+
+    /**
+     * Sets extra height in dp to draw on top the highlight line.
+     * No effect if [BarLineChartBase.getClipDataToContent] is true.
+     *
+     * @param height
+     */
+    public void setHighlightLineExtraTopHeight(float height) {
+        mHighlightLineExtraTopHeight = Utils.convertDpToPixel(height);
+    }
+
+    public float getHighlightLineExtraTopHeight() {
+        return mHighlightLineExtraTopHeight;
     }
 
     /**
