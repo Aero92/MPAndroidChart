@@ -102,6 +102,8 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
     protected boolean mClipDataToContent = true;
 
+    protected boolean mClipHighlightsToContent = true;
+
     /**
      * Sets the minimum offset (padding) around the chart, defaults to 15
      */
@@ -250,12 +252,20 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         if (!mAxisRight.isDrawGridLinesBehindDataEnabled())
             mAxisRendererRight.renderGridLines(canvas);
 
-        // if highlighting is enabled
-        if (valuesToHighlight())
-            mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
-
         // Removes clipping rectangle
         canvas.restoreToCount(clipRestoreCount);
+
+        // if highlighting is enabled
+        if (valuesToHighlight()) {
+            if (isClipHighlightsToContentEnabled()) {
+                clipRestoreCount = canvas.save();
+                canvas.clipRect(mViewPortHandler.getContentRect());
+                mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
+                canvas.restoreToCount(clipRestoreCount);
+            } else {
+                mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
+            }
+        }
 
         mRenderer.drawExtras(canvas);
 
@@ -1234,7 +1244,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     }
 
     /**
-     * When disabled, the data and/or highlights will not be clipped to contentRect. Disabling this option can
+     * When disabled, the data will not be clipped to contentRect. Disabling this option can
      *   be useful, when the data lies fully within the content rect, but is drawn in such a way (such as thick lines)
      *   that there is unwanted clipping.
      *
@@ -1242,6 +1252,16 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
      */
     public void setClipDataToContent(boolean enabled) {
         mClipDataToContent = enabled;
+    }
+
+    /**
+     * When disabled, the highlights will not be clipped to contentRect. Disabling this option can
+     *   be useful when you want to customize their length.
+     *
+     * @param enabled
+     */
+    public void setClipHighlightsToContent(boolean enabled) {
+        mClipHighlightsToContent = enabled;
     }
 
     /**
@@ -1255,7 +1275,7 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
     }
 
     /**
-     * When disabled, the data and/or highlights will not be clipped to contentRect. Disabling this option can
+     * When disabled, the data will not be clipped to contentRect. Disabling this option can
      *   be useful, when the data lies fully within the content rect, but is drawn in such a way (such as thick lines)
      *   that there is unwanted clipping.
      *
@@ -1263,6 +1283,16 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
      */
     public boolean isClipDataToContentEnabled() {
         return mClipDataToContent;
+    }
+
+    /**
+     * When disabled, the highlights will not be clipped to contentRect. Disabling this option can
+     *   be useful when you want to customize their length.
+     *
+     * @return
+     */
+    public boolean isClipHighlightsToContentEnabled() {
+        return mClipHighlightsToContent;
     }
 
     /**
