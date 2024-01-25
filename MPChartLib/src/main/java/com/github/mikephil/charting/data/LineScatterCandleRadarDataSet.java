@@ -67,7 +67,7 @@ public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends Bar
 
     /**
      * Sets extra height in dp to draw on top the highlight line.
-     * No effect if [BarLineChartBase.getClipHighlightsToContent] is true.
+     * No effect if [BarLineChartBase.isClipHighlightsToContentEnabled] is true.
      *
      * @param height
      */
